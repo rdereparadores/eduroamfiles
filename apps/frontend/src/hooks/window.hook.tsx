@@ -12,6 +12,7 @@ type Window = {
 const initialWindows: Window[] = [
     { id: 'whatsapp2', title: 'Whatsapp 2', open: false, minimized: false, link: '/apps/whatsapp2' },
     { id: 'eduroamfiles', title: 'Eduroam Files', open: false, minimized: false, link: '/apps/eduroamfiles' },
+    { id: 'browser', title: 'Internet Explorer', open: false, minimized: false, link: '/apps/browser' },
 ]
 
 type WindowContextType = {

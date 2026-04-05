@@ -6,6 +6,7 @@ import { AddMessageDto } from './dto/add-message.dto';
 export interface ChatMessage {
     role: 'user' | 'bot';
     content: string;
+    fileUrl?: string;
     createdAt: string;
 }
 
@@ -53,6 +54,7 @@ export class ChatService {
         const message: ChatMessage = {
             role: addMessageDto.role,
             content: addMessageDto.content,
+            ...(addMessageDto.fileUrl !== undefined && { fileUrl: addMessageDto.fileUrl }),
             createdAt: new Date().toISOString(),
         };
 

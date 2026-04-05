@@ -1,4 +1,4 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export enum MessageRole {
     USER = 'user',
@@ -11,4 +11,8 @@ export class AddMessageDto {
 
     @IsString()
     content: string;
+
+    @IsOptional()
+    @IsString()
+    fileUrl?: string;
 }

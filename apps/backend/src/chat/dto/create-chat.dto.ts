@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsUrl } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
 
 export class CreateChatDto {
     @IsInt()
@@ -7,6 +7,6 @@ export class CreateChatDto {
     @IsString()
     botName: string;
 
-    @IsUrl()
+    @IsString()
     botImgUrl: string;
 }

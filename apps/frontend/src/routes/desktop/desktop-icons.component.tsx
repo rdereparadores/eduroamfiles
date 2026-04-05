@@ -6,6 +6,8 @@ import HexeditIcon from '../../assets/icons/hexedit-icon.png';
 import {useDesktop} from "../../hooks/desktop.hook.tsx";
 import {useWindow} from "../../hooks/window.hook.tsx";
 
+const IEIcon = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='4' fill='%23ffffff'/><text x='50%25' y='56%25' font-size='52' text-anchor='middle' dominant-baseline='middle' fill='%230055cc' font-family='Arial' font-style='italic' font-weight='bold'>e</text></svg>`;
+
 export const DesktopIcon = (
     { name, icon, onClick }:
     { name: string, icon: string, onClick: () => void }
@@ -35,6 +37,7 @@ export const DesktopIcons = () => {
             <DesktopIcon name="Hexed.it" icon={HexeditIcon} onClick={() => window.open('https://hexed.it')} />
             <DesktopIcon name="Whatsapp 2" icon={Whatsapp2Icon} onClick={() => windowManager.open('whatsapp2')} />
             <DesktopIcon name="Reglamentos" icon={FolderIcon} onClick={() => windowManager.open('eduroamfiles')} />
+            <DesktopIcon name="Explorador" icon={IEIcon} onClick={() => windowManager.open('browser')} />
         </div>
     )
 }

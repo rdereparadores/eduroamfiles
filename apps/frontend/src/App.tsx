@@ -6,6 +6,7 @@ import {SigninRoute} from "./routes/auth/signin/signin.route.tsx";
 import {SignupRoute} from "./routes/auth/signup/signup.route.tsx";
 import {Whatsapp2Route} from "./routes/apps/whatsapp2/whatsapp2.route.tsx";
 import {ChatRoute} from "./routes/apps/whatsapp2/chat/chat.route.tsx";
+import {BrowserRoute} from "./routes/apps/browser/browser.route.tsx";
 import {AuthContainer} from "./components/auth-container.component.tsx";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                     <Route index element={<Whatsapp2Route />} />
                     <Route path=":id" element={<ChatRoute />} />
                 </Route>
+                <Route path="browser" element={<BrowserRoute />} />
             </Route>
         </Route>
     </Routes>

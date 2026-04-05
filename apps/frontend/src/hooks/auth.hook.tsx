@@ -11,7 +11,44 @@ type User = {
                 },
                 completed: boolean
             }
-        }
+            step2: {
+                substeps: {
+                    audioPlayed: boolean,
+                    urlAccessed: boolean
+                },
+                completed: boolean
+            },
+            step3: {
+                substeps: {
+                    imageDownloaded: boolean,
+                    pabloContactUnlocked: boolean
+                },
+                completed: boolean
+            },
+            step4: {
+                substeps: {
+                    imageSent: boolean,
+                    secretariaContactUnlocked: boolean
+                },
+                completed: boolean
+            },
+            step5: {
+                substeps: {
+                    videoSent: boolean,
+                    videoDecoded: boolean,
+                    folderUnlocked: boolean
+                },
+                completed: boolean
+            }
+        },
+        finalPhrase: [
+            { "word": "la", "unlocked": boolean },
+            { "word": "contraseña", "unlocked": boolean },
+            { "word": "del", "unlocked": boolean },
+            { "word": "proyecto", "unlocked": boolean },
+            { "word": "nose", "unlocked": boolean },
+            { "word": "es", "unlocked": boolean }
+        ]
     }
 }
 
