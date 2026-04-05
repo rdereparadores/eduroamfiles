@@ -1,0 +1,52 @@
+{
+  "steps": {
+    "step1": {
+      "description": "Fase 1. Hay que desbloquear el acceso a Whatsapp 2 mediante un EOF Injection a una imagen de Whatsapp 2.",
+      "substeps": {
+        "whatsappUnlocked": false
+      },
+      "completed": false
+    },
+    "step2": {
+      "description": "Fase 2. Dentro de Whatsapp 2 hay un único contacto sincronizado, Pedro L, cuyo chat contiene un audio al que hay que hacerle Tone Insertion. Tras eso se obtendrá una url que al acceder desde el navegador llevará a una noticia.",
+      "substeps": {
+        "audioPlayed": false,
+        "urlAccessed": false
+      },
+      "completed": false
+    },
+    "step3": {
+      "description": "Fase 3. La noticia habla de una subvención para instalación de antenas de telefonía de Robofónica en la EPCC debido a los problemas de eduroam. Tras analizar los metadatos EXIF de la imagen hallas el @ de Whatsapp 2 de Pablo H.",
+      "substeps": {
+        "imageDownloaded": false,
+        "pabloContactUnlocked": false
+      },
+      "completed": false
+    },
+    "step4": {
+      "description": "Fase 4. Hablas con Pablo H. y le intentas convencer de que eres Andrés C., no se fía de ti y te manda una imagen diciendote que si de verdad eres quien dices ser sabrás qué hacer con eso. Con LSB hallas el número de la secretaria.",
+      "substeps": {
+        "imageSent": false,
+        "secretariaContactUnlocked": false
+      },
+      "completed": false
+    },
+    "step5": {
+      "description": "Hablas con la secretaria, te manda un vídeo sobre la instalación de la antena y de que lo habéis conseguido. El vídeo con Meta Seal te da la contraseña final para descifrar la carpeta de los Eduroam Files (la frase final se quedaba en La contraseña de los Files es ...)",
+      "substeps": {
+        "videoSent": false,
+        "videoDecoded": false,
+        "folderUnlocked": false
+      },
+      "completed": false
+    }
+  },
+  "finalPhrase": [ // Frase en un cifrado, al final habrá que descifrarla
+    { "word": "la", "unlocked": false},
+    { "word": "contraseña", "unlocked": false},
+    { "word": "del", "unlocked": false},
+    { "word": "proyecto", "unlocked": false},
+    { "word": "nose", "unlocked": false},
+    { "word": "es", "unlocked": false}
+  ]
+}

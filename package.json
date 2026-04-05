@@ -1,0 +1,12 @@
+{
+  "name": "eduroamfiles",
+  "private": true,
+  "scripts": {
+    "dev:backend": "pnpm --filter backend start:dev",
+    "dev:frontend": "pnpm --filter frontend dev"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.0",
+    "prisma": "^7.6.0"
+  }
+}

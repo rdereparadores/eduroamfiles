@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: light --default;
+}
+
+* {
+    cursor: url("/arrow_il.png"), auto;
+    font-family: "Pixelated MS Sans Serif", serif;
+}
