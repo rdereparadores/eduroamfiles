@@ -3,6 +3,7 @@ import TaskbarTrayTexture from '../../assets/winxp/TaskbarTray.png';
 import BlissWallpaper from '../../assets/winxp/Bliss.png';
 import UnexLogo from '../../assets/misc/logo-unex.png';
 import {DesktopIcons} from "./desktop-icons.component.tsx";
+import {StickyNote} from "../../components/sticky-note.component.tsx";
 import {useEffect, useState} from "react";
 import {useDesktop} from "../../hooks/desktop.hook.tsx";
 import {useWindow} from "../../hooks/window.hook.tsx";
@@ -32,6 +33,7 @@ export const DesktopRoute = () => {
                 <div className="relative z-10 w-fit">
                     <DesktopIcons />
                 </div>
+                <StickyNote />
             </div>
             <div className="relative w-full h-10 bg-black">
                 <img className="absolute h-10 w-full" src={TaskbarTexture} alt="Taskbar" draggable={false} />

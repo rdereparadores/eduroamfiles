@@ -6,11 +6,11 @@ import { MessageRole } from './dto/add-message.dto';
 
 const PABLO_BOT_NAME = 'Pablo H.';
 const PHOTO_MARKER = '[SEND_PHOTO]';
-const PABLO_PHOTO_URL = 'https://t3.ftcdn.net/jpg/06/16/17/72/360_F_616177256_CcgxcLB0b3hUrlgNCK00yZk5w7knoylQ.jpg';
+const PABLO_PHOTO_URL = 'https://eduroamfiles.t3.tigrisfiles.io/ctf/step4/secretaria.png';
 const DEFAULT_MODEL = 'google/gemini-3.1-flash-lite-preview';
 
 const SECRETARIA_BOT_NAME = 'Secretaria A.';
-const SECRETARIA_VIDEO_URL = 'https://eduroamfiles.t3.tigrisfiles.io/file_example_MP4_640_3MG.mp4';
+const SECRETARIA_VIDEO_URL = 'https://eduroamfiles.t3.tigrisfiles.io/ctf/step5/video_antena.mp4';
 
 /** Simulates typing time: ~50 ms/char, clamped between 1.5 s and 7 s, plus ±20% jitter. */
 function typingDelay(text: string): Promise<void> {

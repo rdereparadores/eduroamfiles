@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { PhraseWord } from "../../../components/phrase-word.component";
 
 const TARGET_URL = 'www.cadenanorte.com/epcc';
-const COVER_IMAGE_URL = ''; // Rellena con la URL de la imagen de portada
+const COVER_IMAGE_URL = 'https://eduroamfiles.t3.tigrisfiles.io/ctf/step3/noticia-epcc.jpg'; // Rellena con la URL de la imagen de portada
 
 function HomePage() {
     return (
@@ -85,7 +86,7 @@ function ArticlePage() {
                 <p>
                     La Escuela Politécnica de Cáceres (EPCC) ha dado luz verde a un ambicioso proyecto de modernización
                     de su infraestructura de comunicaciones. En una reunión extraordinaria celebrada el pasado viernes,
-                    la junta directiva de la escuela aprobó por unanimidad un acuerdo con la empresa de telecomunicaciones
+                    <PhraseWord word="la" /> junta directiva de la escuela aprobó por unanimidad un acuerdo con la empresa de telecomunicaciones
                     <strong> Robofónica</strong> para la instalación de antenas 5G en todo el campus universitario.
                 </p>
                 <p>
@@ -119,7 +120,7 @@ function ArticlePage() {
                     universitaria, ha generado una reacción mayoritariamente positiva entre los estudiantes,
                     aunque algunos han expresado sus dudas sobre los plazos anunciados. Los representantes
                     de Robofónica han garantizado que el proyecto se ejecutará dentro de los tiempos acordados
-                    y que habrá una fase de pruebas antes de la puesta en marcha definitiva.
+                    y que habrá una fase de pruebas antes de la puesta en marcha definitiva. <PhraseWord word="contraseña" />
                 </p>
             </div>
 

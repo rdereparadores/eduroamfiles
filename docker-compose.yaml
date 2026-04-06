@@ -1,16 +1,63 @@
 services:
+
+  # ── Database ─────────────────────────────────────────────────────────────────
   postgres:
     image: postgres:17
-    container_name: postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app_password
       POSTGRES_DB: app_db
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Backend (NestJS) ─────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://app:app_password@postgres:5432/app_db
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ── MetaSeal (FastAPI + VideoSeal) ───────────────────────────────────────────
+  metaseal:
+    build:
+      context: utils/videoseal-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      # Keep model weights out of the image layer so rebuilds are fast
+      - ./utils/videoseal-service/ckpts:/app/ckpts
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/ || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+
+  # ── Frontend (React → nginx) ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${PORT:-80}:80"
+    depends_on:
+      - backend
+      - metaseal
 
 volumes:
   postgres_data:

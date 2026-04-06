@@ -15,6 +15,7 @@ const initialWindows: Window[] = [
     { id: 'browser', title: 'Internet Explorer', open: false, minimized: false, link: '/apps/browser' },
     { id: 'lsbtool', title: 'Herramienta LSB', open: false, minimized: false, link: '/apps/lsbtool' },
     { id: 'reglamentos', title: 'Reglamentos', open: false, minimized: false, link: '/apps/reglamentos' },
+    { id: 'metaseal', title: 'MetaSeal', open: false, minimized: false, link: '/apps/metaseal/' },
 ]
 
 type WindowContextType = {

@@ -38,7 +38,7 @@ export class Step1Service {
                 botImgUrl: '',
             });
             await this.chatService.addMessage(chat.id, { role: MessageRole.BOT, content: 'Escucha' });
-            await this.chatService.addMessage(chat.id, { role: MessageRole.BOT, content: '', fileUrl: 'https://eduroamfiles.t3.tigrisfiles.io/file_example_MP3_1MG.mp3' });
+            await this.chatService.addMessage(chat.id, { role: MessageRole.BOT, content: '', fileUrl: 'https://eduroamfiles.t3.tigrisfiles.io/ctf/step2/audio.wav' });
         }
 
         return { success: true };

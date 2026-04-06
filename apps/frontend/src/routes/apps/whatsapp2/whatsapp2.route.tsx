@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../../hooks/auth.hook";
 import { Chat, useChats } from "../../../hooks/chat.hook";
+import { PhraseWord } from "../../../components/phrase-word.component";
 
 function lastMessagePreview(chat: Chat): string {
     const msgs = chat.conversation;
@@ -84,7 +85,7 @@ function AddContactPanel({ onClose }: { onClose: () => void }) {
             padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6,
         }}>
             <p style={{ margin: 0, fontSize: 12, color: '#555' }}>
-                Añadir contacto por @ o número de teléfono:
+                Añadir contacto por @ o número de teléfono: <PhraseWord word="del" />
             </p>
             <div style={{ display: 'flex', gap: 6 }}>
                 <input
@@ -188,7 +189,7 @@ export const Whatsapp2Route = () => {
                 background: '#25d366', padding: '8px 12px',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0,
             }}>
-                <p style={{ margin: 0, fontWeight: 'bold', fontSize: 18, color: 'white' }}>WhatsApp 2</p>
+                <p style={{ margin: 0, fontWeight: 'bold', fontSize: 18, color: 'white' }}>WhatsApp 2 <PhraseWord word="proyecto" /></p>
                 <button
                     onClick={() => setShowAddContact(v => !v)}
                     title="Añadir contacto"

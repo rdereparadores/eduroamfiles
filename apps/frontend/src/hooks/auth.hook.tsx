@@ -46,7 +46,7 @@ type User = {
             { "word": "contraseña", "unlocked": boolean },
             { "word": "del", "unlocked": boolean },
             { "word": "proyecto", "unlocked": boolean },
-            { "word": "nose", "unlocked": boolean },
+            { "word": "alpha", "unlocked": boolean },
             { "word": "es", "unlocked": boolean }
         ]
     }
@@ -57,6 +57,7 @@ type AuthContextType = {
     signin: (email: string, password: string) => Promise<void>;
     signup: (email: string, password: string) => Promise<void>;
     signout: () => void;
+    unlockWord: (word: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -129,7 +130,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         window.location.href = '/auth/signin';
     }
 
-    const value = useMemo(() => ({ signin, signup, user, signout }), [user]);
+    const unlockWord = async (word: string) => {
+        await fetch('/api/final-phrase/unlock', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({ word }),
+        });
+        setUser(prev => {
+            if (!prev) return prev;
+            return {
+                ...prev,
+                progress: {
+                    ...prev.progress,
+                    finalPhrase: prev.progress.finalPhrase.map(p =>
+                        p.word === word ? { ...p, unlocked: true } : p
+                    ),
+                },
+            } as User;
+        });
+    };
+
+    const value = useMemo(() => ({ signin, signup, user, signout, unlockWord }), [user]);
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 

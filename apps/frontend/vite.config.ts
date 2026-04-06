@@ -16,6 +16,11 @@ export default defineConfig({
         target: 'http://localhost:3000',
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/apps/metaseal': {
+        target: 'http://localhost:9999',
+        rewrite: (path) => path.replace(/^\/apps\/metaseal/, ''),
+        changeOrigin: true,
+      },
     },
   },
 })

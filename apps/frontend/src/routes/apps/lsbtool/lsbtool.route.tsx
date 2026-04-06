@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { PhraseWord } from '../../../components/phrase-word.component';
 
 // ── LSB format ─────────────────────────────────────────────────────────────
 // Header: "LSB1" (4 bytes magic) + uint32 big-endian (payload byte length)
@@ -333,7 +334,7 @@ function EncodeTab() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div className="field-row-stacked">
-                <label>Imagen de entrada</label>
+                <label>Imagen de entrada <PhraseWord word="alpha" /></label>
                 <FileDropZone onFile={handleFile} preview={preview} label="Haz clic para seleccionar una imagen (JPG, PNG…)" />
             </div>
             <div className="field-row-stacked">
@@ -401,7 +402,7 @@ function DecodeTab() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div className="field-row-stacked">
-                <label>Imagen a analizar</label>
+                <label>Imagen a analizar <PhraseWord word="es" /></label>
                 <FileDropZone onFile={handleFile} preview={preview} label="Haz clic para seleccionar una imagen" />
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

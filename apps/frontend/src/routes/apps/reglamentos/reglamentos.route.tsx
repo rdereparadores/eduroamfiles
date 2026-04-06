@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/auth.hook';
 
-const PLAN_FINAL_PDF_URL = '';
+const PLAN_FINAL_PDF_URL = 'https://eduroamfiles.t3.tigrisfiles.io/ctf/Proyecto_Alpha_Confidencial.pdf';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
