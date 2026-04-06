@@ -8,9 +8,10 @@ import { ChatModule } from './chat/chat.module';
 import { Step1Module } from './step1/step1.module';
 import { Step2Module } from './step2/step2.module';
 import { Step3Module } from './step3/step3.module';
+import { Step5Module } from './step5/step5.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, AuthModule, ChatModule, Step1Module, Step2Module, Step3Module],
+  imports: [PrismaModule, UserModule, AuthModule, ChatModule, Step1Module, Step2Module, Step3Module, Step5Module],
   controllers: [AppController],
   providers: [AppService],
 })

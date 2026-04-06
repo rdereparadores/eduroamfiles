@@ -1,0 +1,15 @@
+services:
+  videoseal:
+    build: .
+    ports:
+      - "0.0.0.0:9999:8000"
+    volumes:
+      # Model weights (~130 MB) persist across container restarts and rebuilds
+      - ckpts:/app/ckpts
+    restart: unless-stopped
+    environment:
+      # Set to "cuda" to use GPU (requires nvidia-container-toolkit)
+      - CUDA_VISIBLE_DEVICES=
+
+volumes:
+  ckpts:

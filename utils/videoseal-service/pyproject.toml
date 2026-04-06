@@ -1,0 +1,37 @@
+[project]
+name = "videoseal-service"
+version = "0.1.0"
+description = "REST service for video watermarking using Meta VideoSeal"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "python-multipart>=0.0.12",
+    "torch>=2.3.0",
+    "torchvision>=0.18.0",
+    "imageio-ffmpeg>=0.5.1",
+    "numpy>=1.26.0",
+    "videoseal @ git+https://github.com/facebookresearch/videoseal",
+    "requests>=2.32.0",
+    "opencv-python-headless>=4.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.uv.sources]
+# Uncomment the following to use CPU-only PyTorch (smaller install, no GPU):
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

@@ -32,7 +32,7 @@ export const WindowComponent = ({ id }: { id: string }) => {
                     <iframe
                         className="w-full h-full"
                         src={window.get(id).link}
-                        sandbox="allow-scripts allow-same-origin allow-forms"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
                     />
                 </div>
             </div>

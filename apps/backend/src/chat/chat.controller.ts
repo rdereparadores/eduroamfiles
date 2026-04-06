@@ -1,12 +1,16 @@
 import { Body, Controller, ForbiddenException, Get, Param, ParseIntPipe, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { ChatService } from './chat.service';
+import { BotService } from './bot.service';
+import { ChatMessage, ChatService } from './chat.service';
 import { AddMessageDto, MessageRole } from './dto/add-message.dto';
 
 @Controller('chat')
 export class ChatController {
-    constructor(private readonly chatService: ChatService) {}
+    constructor(
+        private readonly chatService: ChatService,
+        private readonly botService: BotService,
+    ) {}
 
     @Get()
     @Auth()
@@ -34,6 +38,14 @@ export class ChatController {
         const userId = (req as any).user.sub as number;
         const chat = await this.chatService.findOne(id);
         if (chat.userId !== userId) throw new ForbiddenException();
-        return this.chatService.addMessage(id, { ...dto, role: MessageRole.USER });
+
+        const updatedChat = await this.chatService.addMessage(id, { ...dto, role: MessageRole.USER });
+
+        // Fire-and-forget bot response (appears on next poll)
+        const conversation = updatedChat.conversation as unknown as ChatMessage[];
+        this.botService.respondIfPablo(userId, id, chat.botName, conversation).catch(() => {});
+        this.botService.respondIfSecretaria(userId, id, chat.botName, conversation).catch(() => {});
+
+        return updatedChat;
     }
 }

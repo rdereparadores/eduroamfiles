@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VideoSeal – Marca de Agua en Vídeos</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3348;
+      --accent: #5b8dee;
+      --accent-hover: #7aa5f5;
+      --success: #3ecf8e;
+      --error: #ff6b6b;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    header h1 span { color: var(--accent); }
+    header p {
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    @media (max-width: 700px) {
+      .panels { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card h2 .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+    }
+    .icon-embed { background: rgba(91,141,238,.15); color: var(--accent); }
+    .icon-detect { background: rgba(62,207,142,.15); color: var(--success); }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .file-drop {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+    .file-drop:hover, .file-drop.drag-over {
+      border-color: var(--accent);
+      background: rgba(91,141,238,.05);
+    }
+    .file-drop input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .file-drop .drop-icon { font-size: 1.5rem; }
+    .file-drop .drop-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.35rem; }
+    .file-drop .file-name { font-size: 0.875rem; color: var(--accent); margin-top: 0.25rem; font-weight: 500; }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+    .char-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+    .char-count.warn { color: var(--error); }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+    }
+    button[type="submit"]:active { transform: scale(.98); }
+    button[type="submit"]:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-embed { background: var(--accent); color: #fff; }
+    .btn-detect { background: var(--success); color: #0f1117; }
+
+    .result {
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+    .result.show { display: block; }
+    .result.success { background: rgba(62,207,142,.1); border: 1px solid rgba(62,207,142,.3); color: var(--success); }
+    .result.error { background: rgba(255,107,107,.1); border: 1px solid rgba(255,107,107,.3); color: var(--error); }
+    .result.info { background: rgba(91,141,238,.1); border: 1px solid rgba(91,141,238,.3); color: var(--accent); }
+    .result .result-label { font-weight: 600; margin-bottom: 0.35rem; }
+    .result a { color: inherit; font-weight: 600; text-decoration: underline; }
+
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .limit-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Video<span>Seal</span></h1>
+    <p>Marca de agua invisible en vídeos · Powered by Meta VideoSeal</p>
+  </header>
+
+  <div class="panels">
+
+    <!-- ── EMBED ── -->
+    <div class="card">
+      <h2>
+        <span class="icon icon-embed">🔒</span>
+        Añadir marca de agua
+      </h2>
+
+      <form id="embedForm" autocomplete="off">
+        <div>
+          <label>Vídeo</label>
+          <div class="file-drop" id="embedDrop">
+            <input type="file" id="embedFile" name="video" accept="video/*" required />
+            <div class="drop-icon">🎬</div>
+            <div class="drop-label">Arrastra un vídeo o haz clic para seleccionar</div>
+            <div class="file-name" id="embedFileName"></div>
+          </div>
+        </div>
+
+        <div>
+          <label>Texto de la marca de agua</label>
+          <input
+            type="text"
+            id="embedText"
+            name="text"
+            placeholder="Ej: © 2025 MiEmpresa"
+            maxlength="32"
+            required
+          />
+          <div class="char-count" id="charCount">0 / 32 bytes</div>
+          <div class="limit-note">Máximo 32 bytes UTF-8 (~32 caracteres ASCII)</div>
+        </div>
+
+        <button type="submit" class="btn-embed" id="embedBtn">Incrustar marca de agua</button>
+      </form>
+
+      <div class="result" id="embedResult"></div>
+    </div>
+
+    <!-- ── DETECT ── -->
+    <div class="card">
+      <h2>
+        <span class="icon icon-detect">🔍</span>
+        Detectar marca de agua
+      </h2>
+
+      <form id="detectForm">
+        <div>
+          <label>Vídeo</label>
+          <div class="file-drop" id="detectDrop">
+            <input type="file" id="detectFile" name="video" accept="video/*" required />
+            <div class="drop-icon">🎬</div>
+            <div class="drop-label">Arrastra un vídeo o haz clic para seleccionar</div>
+            <div class="file-name" id="detectFileName"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-detect" id="detectBtn">Analizar vídeo</button>
+      </form>
+
+      <div class="result" id="detectResult"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── File drop UI ─────────────────────────────────────────────────────────
+    function setupFileDrop(inputId, dropId, nameId) {
+      const input = document.getElementById(inputId);
+      const drop  = document.getElementById(dropId);
+      const name  = document.getElementById(nameId);
+
+      input.addEventListener("change", () => {
+        name.textContent = input.files[0]?.name ?? "";
+      });
+      drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("drag-over"); });
+      drop.addEventListener("dragleave", () => drop.classList.remove("drag-over"));
+      drop.addEventListener("drop", e => {
+        e.preventDefault();
+        drop.classList.remove("drag-over");
+        if (e.dataTransfer.files.length) {
+          input.files = e.dataTransfer.files;
+          name.textContent = input.files[0].name;
+        }
+      });
+    }
+
+    setupFileDrop("embedFile", "embedDrop", "embedFileName");
+    setupFileDrop("detectFile", "detectDrop", "detectFileName");
+
+    // ── Character counter ────────────────────────────────────────────────────
+    const embedTextInput = document.getElementById("embedText");
+    const charCount      = document.getElementById("charCount");
+
+    embedTextInput.addEventListener("input", () => {
+      const bytes = new TextEncoder().encode(embedTextInput.value).length;
+      charCount.textContent = `${bytes} / 32 bytes`;
+      charCount.classList.toggle("warn", bytes > 32);
+    });
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function setResult(el, type, html) {
+      el.className = `result show ${type}`;
+      el.innerHTML = html;
+    }
+
+    function loading(btn, label) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span>${label}`;
+    }
+
+    function resetBtn(btn, label) {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+
+    // ── Embed ────────────────────────────────────────────────────────────────
+    document.getElementById("embedForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const btn    = document.getElementById("embedBtn");
+      const result = document.getElementById("embedResult");
+      const form   = e.target;
+
+      const bytes = new TextEncoder().encode(embedTextInput.value).length;
+      if (bytes > 32) {
+        setResult(result, "error",
+          `<div class="result-label">Texto demasiado largo</div>
+           El texto ocupa ${bytes} bytes; el máximo es 32.`);
+        return;
+      }
+
+      loading(btn, "Procesando…");
+      result.className = "result";
+
+      try {
+        const fd = new FormData(form);
+        const res = await fetch("/embed", { method: "POST", body: fd });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ detail: res.statusText }));
+          throw new Error(err.detail ?? res.statusText);
+        }
+
+        const blob     = await res.blob();
+        const url      = URL.createObjectURL(blob);
+        const filename = res.headers.get("Content-Disposition")
+                            ?.match(/filename="?([^"]+)"?/)?.[1]
+                        ?? "watermarked.mp4";
+
+        setResult(result, "success",
+          `<div class="result-label">✅ Marca incrustada</div>
+           <a href="${url}" download="${filename}">Descargar ${filename}</a>`);
+      } catch (err) {
+        setResult(result, "error",
+          `<div class="result-label">Error</div>${err.message}`);
+      } finally {
+        resetBtn(btn, "Incrustar marca de agua");
+      }
+    });
+
+    // ── Detect ───────────────────────────────────────────────────────────────
+    document.getElementById("detectForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const btn    = document.getElementById("detectBtn");
+      const result = document.getElementById("detectResult");
+      const form   = e.target;
+
+      loading(btn, "Analizando…");
+      result.className = "result";
+
+      try {
+        const fd  = new FormData(form);
+        const res = await fetch("/detect", { method: "POST", body: fd });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ detail: res.statusText }));
+          throw new Error(err.detail ?? res.statusText);
+        }
+
+        const data = await res.json();
+
+        if (data.error) {
+          setResult(result, "error",
+            `<div class="result-label">Error interno</div>${data.error}`);
+        } else if (data.detected) {
+          setResult(result, "success",
+            `<div class="result-label">✅ Marca de agua detectada</div>
+             Texto: <strong>${escapeHtml(data.text)}</strong>`);
+        } else {
+          setResult(result, "info",
+            `<div class="result-label">ℹ️ Sin marca de agua detectada</div>
+             El vídeo no contiene un mensaje decodificable.`);
+        }
+      } catch (err) {
+        setResult(result, "error",
+          `<div class="result-label">Error</div>${err.message}`);
+      } finally {
+        resetBtn(btn, "Analizar vídeo");
+      }
+    });
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+              .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+    }
+  </script>
+</body>
+</html>
