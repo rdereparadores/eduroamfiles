@@ -77,6 +77,7 @@ export class Step3Service {
         }
 
         progress.steps.step3.substeps.pabloContactUnlocked = true;
+        progress.steps.step3.completed = true;
         await this.prismaService.user.update({
             where: { id: userId },
             data: { progress },
@@ -104,6 +105,9 @@ export class Step3Service {
         }
 
         progress.steps.step4.substeps.secretariaContactUnlocked = true;
+        if (progress.steps.step4.substeps.imageSent) {
+            progress.steps.step4.completed = true;
+        }
         await this.prismaService.user.update({
             where: { id: userId },
             data: { progress },

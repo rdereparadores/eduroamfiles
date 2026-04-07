@@ -28,14 +28,12 @@ export class UserService {
                         },
                         step2: {
                             substeps: {
-                                audioPlayed: false,
                                 urlAccessed: false
                             },
                             completed: false
                         },
                         step3: {
                             substeps: {
-                                imageDownloaded: false,
                                 pabloContactUnlocked: false
                             },
                             completed: false
@@ -50,7 +48,6 @@ export class UserService {
                         step5: {
                             substeps: {
                                 videoSent: false,
-                                videoDecoded: false,
                                 folderUnlocked: false
                             },
                             completed: false

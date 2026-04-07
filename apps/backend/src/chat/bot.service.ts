@@ -109,6 +109,9 @@ export class BotService {
                 const progress = user!.progress as any;
                 if (!progress.steps.step4.substeps.imageSent) {
                     progress.steps.step4.substeps.imageSent = true;
+                    if (progress.steps.step4.substeps.secretariaContactUnlocked) {
+                        progress.steps.step4.completed = true;
+                    }
                     await this.prismaService.user.update({
                         where: { id: userId },
                         data: { progress },

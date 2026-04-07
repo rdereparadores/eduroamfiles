@@ -13,14 +13,12 @@ type User = {
             }
             step2: {
                 substeps: {
-                    audioPlayed: boolean,
                     urlAccessed: boolean
                 },
                 completed: boolean
             },
             step3: {
                 substeps: {
-                    imageDownloaded: boolean,
                     pabloContactUnlocked: boolean
                 },
                 completed: boolean
@@ -35,7 +33,6 @@ type User = {
             step5: {
                 substeps: {
                     videoSent: boolean,
-                    videoDecoded: boolean,
                     folderUnlocked: boolean
                 },
                 completed: boolean
